@@ -1,0 +1,42 @@
+import pandas as pd
+import numpy as np
+from sklearn import preprocessing
+
+data = {
+    'Math_Score': [78, 65, 60, 80, 77, np.nan, 68, 61, 80, 62],
+    'Reading_Score': [88, 75, 85, 95, 90, 84, np.nan, 86, 77, 89],
+    'Writing_Score': [70, 65, np.nan, 80, 75, 78, 67, 66, 74, 79],
+    'Placement_Score': [90, 85, 95, 100, 88, 93, 97, 94, 99, np.nan],
+    'Club_Join_Date': [2019, 2020, 2018, 2021, 2019, 2020, 2021, 2020, 2018, 2019],
+    'Placement_Offer_Count': [2, 1, 3, 4, 2, 2, 5, 3, 2, 4]
+}
+
+df = pd.DataFrame(data)
+df
+
+df.isnull().sum()
+
+df['Math_Score'] = df['Math_Score'].fillna(df['Math_Score'].mean())
+df['Reading_Score'] = df['Reading_Score'].fillna(df['Reading_Score'].median())
+df['Writing_Score'] = df['Writing_Score'].fillna(df['Writing_Score'].mean())
+df['Placement_Score'] = df['Placement_Score'].fillna(df['Placement_Score'].mean())
+
+
+df
+
+
+numeric_cols = ['Math_Score', 'Reading_Score', 'Writing_Score', 'Placement_Score']
+for col in numeric_cols:
+    Q1 = df[col].quantile(0.25)
+    Q3 = df[col].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    df[col] = np.where(df[col] > upper_bound, upper_bound,
+               np.where(df[col] < lower_bound, lower_bound, df[col]))
+               
+               
+df['Placement_Score_Z'] = (df['Placement_Score'] - df['Placement_Score'].mean()) / df['Placement_Score'].std()
+
+df[['Placement_Score', 'Placement_Score_Z']]
+

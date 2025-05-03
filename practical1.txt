@@ -1,0 +1,92 @@
+import pandas as pd
+from sklearn import preprocessing
+
+df = pd.read_csv('Uber Request Data.csv')
+
+df
+
+df.head()
+
+df.tail()
+
+df.info()
+
+df.columns.values
+
+df.shape
+
+df.dtypes
+
+df.describe()
+
+df.isnull()
+
+df.notnull()
+
+df.isna()
+
+df.notna()
+
+df.isnull().sum()
+
+df.isnull().any()
+
+df.iloc[69]
+
+df[0:70]
+
+df.describe(include = 'all')
+
+df.isna().sum()
+
+df.isnull().sum().sum()
+
+df['Request id']
+
+df.sort_values(by='Request id')
+
+df.sort_values(by='Pickup point')
+
+df = pd.read_csv('Iris.csv')
+
+df
+
+df.head(10)
+
+df.tail(10) 	
+
+df.index
+
+df.columns
+
+df.columns.values
+
+df.shape
+
+df.dtypes
+
+df.describe()
+
+min_max_scaler = preprocessing.MinMaxScaler()
+
+x = df.iloc[:,:4]
+
+x_scaled = min_max_scaler.fit_transform(x)
+
+df_normalised = pd.DataFrame(x_scaled)
+
+df_normalised
+
+df['variety'].unique()
+
+features_df = df.drop(columns=['variety'])
+features_df
+
+enc = preprocessing.OneHotEncoder()
+enc_df = (enc.fit_transform(df[['variety']]))
+x = pd.DataFrame(enc_df)
+x
+
+df_encode=features_df.join(x)
+
+df_encode
